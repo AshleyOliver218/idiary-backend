@@ -2,20 +2,20 @@
 const express = require('express')
 require('dotenv').config()
 const mongoose = require('mongoose')
-const Logs = require('./models/logs')
+const Journals = require('./models/journals')
 const cors =require('cors')
 const db = mongoose.connection
-const logsData = require('./utilities/data')
-const logsController = require('./controllers/logs')
+const journalSeeds = require('./utilities/data')
+const journalsController = require('./controllers/journals')
 
 // dotenv 
 const app = express()
-const mongoURI = process.env.MONGODB_URI
+const DATABASE_URL = process.env.DATABASE_URL
 const PORT = process.env.PORT || 3001
 
 // Connects to Mogodb Database
-mongoose.connect(mongoURI, { useNewUrlParser: true},
-   () => console.log('MongoDB connection establish') )
+mongoose.connect(DATABASE_URL, { useNewUrlParser: true},
+   () => console.log('MongoDB connected') )
 
 // Error messages
 db.on('error', err => console.log(err.message + ' is why mongo is not running properly'))
@@ -29,17 +29,18 @@ app.use(express.static('public')) // we need to tell express to use the public d
 app.use(cors({ origin: '*' })) // used to whitelist requests
 
 // Routes
-app.use('/logs', logsController) // telling server.js to get the routes from controllers/logs.js
+app.use('/journals', journalsController) // telling server.js to get the routes from controllers/journals.js
 
 
 // for mass seeding and deleting
 app.get('/seed', async (req, res) => {
-    await Logs.deleteMany({});
-    await Logs.insertMany(logsData);
+    await Journals.insertMany(journalSeeds);
     res.send('done!');
   });
 
 //port listener
 app.listen(PORT, () => {
-    console.log('This message means nothing', PORT)
+    console.log(`Listening on port ${PORT}`)
   })
+
+  //await Journals.deleteMany({});
