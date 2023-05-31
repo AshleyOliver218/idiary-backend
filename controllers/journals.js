@@ -20,7 +20,6 @@ router.delete('/:id', (req, res)=>{
 });
 // Update Route
 router.put('/:id', (req, res)=>{
-    console.log(req.body)
     Journals.findByIdAndUpdate(req.params.id, req.body, {new:true}, (err, updatedJournal)=>{
         res.json(updatedJournal) //response to front end Edit route
     })
@@ -28,7 +27,6 @@ router.put('/:id', (req, res)=>{
 // Create Route
 router.post('/', (req, res)=>{
     Journals.create(req.body, (err, createdJournal)=>{
-        console.log(req.body)
         res.json(createdJournal) //response to front end New route (creates new journal)
     })
 })

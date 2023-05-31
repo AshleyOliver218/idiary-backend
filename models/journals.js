@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const journalSchema = new mongoose.Schema({
     title: { type: String, required: true },
     date:  { type: String, required: true },
+    mood:  { type: String},
     entry: { type: String, required: true },
     goal1: { type: String},
     goal2: { type: String}, 
